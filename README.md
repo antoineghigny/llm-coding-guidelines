@@ -15,7 +15,7 @@ I created this fork to solve my own pain point:
 
 ## The 8 Principles
 
-1. **Think Before Coding**: Don't assume. Surface tradeoffs. Stop and ask if unclear.
+1. **Think Before Coding**: Don't assume. Clarify over guesswork. Prioritize research and questions if ambiguous.
 2. **Simplicity First**: Minimum code that solves the problem. Nothing speculative.
 3. **Surgical Changes**: Touch only what you must. Clean up only your own mess.
 4. **Goal-Driven Execution**: Define verifiable success criteria. Loop until verified.

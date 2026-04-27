@@ -13,6 +13,7 @@ Before implementing:
 - If multiple interpretations exist, present them - don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
+- **Clarification over Guesswork**: If a request is ambiguous or underspecified, stop. Prioritize deep research (codebase, docs, or web search) and asking targeted questions over implementing a "best guess". Never implement an assumption.
 
 ## 2. Simplicity First
 
