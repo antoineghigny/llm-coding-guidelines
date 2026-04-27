@@ -26,46 +26,29 @@ Before implementing:
 
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-## 3. Surgical Changes
+## 3. Surgical & Feedback-Driven Changes
 
-**Touch only what you must. Clean up only your own mess.**
+**Touch only what you must. Fix the exact concern raised.**
 
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
+- Match existing style. Don't refactor or format adjacent working code.
+- Resolve specific feedback directly (e.g., if asked to rename, just rename; don't redesign).
+- Remove only the dead code your changes create. Don't remove pre-existing dead code unless asked.
 
 The test: Every changed line should trace directly to the user's request.
 
-## 4. Goal-Driven Execution
+## 4. Goal-Driven & End-To-End Verification
 
-**Define success criteria. Loop until verified.**
+**Define success criteria. Loop until verified across all layers.**
 
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
+- Transform tasks into verifiable goals (e.g., "Write a test that reproduces the bug, then make it pass").
+- Changes crossing code, contracts, and infra need cross-layer verification, not just source diffs.
 
-For multi-step tasks, state a brief plan:
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
+## 5. Architecture & Boundaries
 
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+**Keep each layer responsible for one kind of work.**
 
-## 5. Feedback-Driven Changes
-
-**Fix the smallest real problem first.**
-
-- Resolve the specific concern being raised; don't silently solve a different problem.
-- If feedback asks for a rename, start with a rename, not a redesign.
+- **Boundaries**: Controllers and adapters translate input, validate, and delegate. Keep transport-specific code out of business logic.
+- **Contracts**: Define shared models once. Duplicate schemas signal misplaced ownership. Keep generated code aligned with contract structure.
 
 ## 6. Preserve Test Semantics
 
@@ -74,36 +57,14 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Keep existing integration or slice-test patterns.
 - Don't convert them to unit tests just to make mocking easier.
 
-## 7. Architecture & Boundaries
-
-**Keep each layer responsible for one kind of work.**
-
-- **Boundaries**: Controllers and adapters should translate input, validate, and delegate. Keep transport-specific code out of business logic.
-- **Dependencies**: Prefer the simplest dependency graph. Don't assume transitive availability. Avoid noisy fully-qualified imports.
-
-## 8. API Contracts & Generation
-
-**Treat API contracts and generators as first-class code.**
-
-- **Shared Models**: Define shared contract models once. Duplicate schemas are a signal to check ownership.
-- **Generation**: Keep generated code aligned with contract structure. Update generator configurations and schema mappings as the contract evolves.
-
-## 9. Configuration, Flags & Wiring
+## 7. Configuration & Wiring
 
 **Never guess where runtime state comes from.**
 
-- **Config**: Trace configuration through local files, servers, and deployment manifests.
-- **Feature Flags**: A flag is correct only when the whole wiring (creation, injection, calling) follows it.
-- **Messaging**: Verify the real message flow (producer/consumer) and deployment topology before changing infrastructure.
+- **Traceability**: Trace configuration through local files, servers, and deployment manifests.
+- **Flags**: A feature flag is only correct when every component that creates, injects, or calls it follows the flag.
 
-## 10. End-To-End Verification
-
-**Verify across all affected layers.**
-
-- Changes crossing code, contracts, config, and infra need cross-layer verification, not just source diffs.
-- Treat local unpublished artifacts as temporary verification aids, not final solutions.
-
-## 11. Project Lessons
+## 8. Project Lessons
 
 **Keep this section short. Add only repeated mistakes observed in review.**
 
