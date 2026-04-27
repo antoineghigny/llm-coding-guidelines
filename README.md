@@ -9,25 +9,22 @@ I use LLMs heavily to code features, but I noticed a frustrating pattern: **the 
 The original Karpathy guidelines were a fantastic starting point for general behavior, but they lacked specific architectural guardrails and a mechanism for continuous learning on a specific codebase.
 
 I created this fork to solve my own pain point:
-1. **Prioritizing Core Principles**: Restoring Karpathy's original rules (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) exactly as they were intended.
-2. **Evolutionary API Standards**: Integrating a strict "Contract First" policy to prevent breaking consumers.
-3. **Event-Driven Guardrails**: Guidelines for reliable messaging and schema evolution in asynchronous systems.
-4. **The "Project Lessons" Ledger**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section.
+1. **Prioritizing Core Principles**: Restoring Karpathy's original rules (Think & Surface Tradeoffs, Contextual Surgicality, Minimalist Excellence, Goal-Driven Execution) exactly as they were intended.
+2. **Architectural Guardrails**: Integrating strict API standards, Reliable Messaging, and Boundary enforcement to prevent common PR rejections.
+3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section.
 
-## The 12 Principles
+## The 10 Principles
 
-1. **Think Before Coding**: Don't assume. Clarify over guesswork. Surface tradeoffs.
-2. **Read Before Editing**: Understand the local pattern before changing code. Inspect neighbors.
-3. **Simplicity First**: Minimum code that solves the problem. Nothing speculative.
-4. **Surgical Changes**: Touch only what you must. Clean up only your own mess.
-5. **Goal-Driven Execution**: Define verifiable success criteria. Loop until verified.
-6. **Evolutionary API Design**: Do not break backward compatibility. Treat APIs as sacred contracts.
-7. **Event-Driven & Messaging**: Design for asynchronous reliability and schema evolution.
-8. **Architecture & Boundaries**: Keep each layer focused. Perform boundary-level validation.
-9. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
-10. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
-11. **Computational Efficiency & Clean Logic**: Avoid brute-force O(n²) and deep nesting.
-12. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
+1. **Think & Surface Tradeoffs**: Don't assume. Clarify before guessing. Surface tradeoffs.
+2. **Contextual Surgicality**: Match local pattern for existing code. Clean up only your own mess.
+3. **Minimalist Excellence**: For new code, aim for O(n) and 50 vs 200 lines. Avoid deep nesting.
+4. **Goal-Driven Execution**: Define verifiable success criteria. Plan -> Act -> Validate.
+5. **Sacred API Contracts**: No breaking changes. Contract-first design.
+6. **Reliable Messaging**: Design for resilience and async schema evolution.
+7. **Architectural Boundaries**: Keep layers focused. Controllers delegate, logic stays pure.
+8. **Feedback-Driven Focus**: Fix the smallest real problem first. Resolve the specific concern raised.
+9. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
+10. **Project Lessons Engine**: Distill past PR feedback into lessons to avoid repeating traps.
 
 ## Workflow: The PR Review Loop
 

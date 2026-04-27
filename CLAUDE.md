@@ -4,130 +4,67 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-## 1. Think Before Coding
-
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
-
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
+## 1. Think & Surface Tradeoffs
+**Don't assume. Don't hide confusion. Clarify before guessing.**
+- State assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
-- **Clarification over Guesswork**: If a request is ambiguous or underspecified, stop. Research the codebase, docs, and available context before guessing. When an assumption affects behavior, architecture, data contracts, or public APIs, verify it before implementing.
+- Push back on overcomplicated requests.
+- **Ambiguity**: Research the codebase, docs, and context before guessing. Verify assumptions that affect behavior or public APIs.
 
-## 2. Read Before Editing
+## 2. Contextual Surgicality
+**Match the local pattern for existing code. Clean up only your own mess.**
+- **Read First**: Inspect neighboring naming, layering, and error handling before editing.
+- **Surgical Edits**: Match existing style for surgical changes, even if you'd do it differently. Don't "improve" adjacent code or refactor things that aren't broken.
+- **Orphans**: Remove imports/variables/functions that YOUR changes made unused. Don't touch pre-existing dead code.
 
-**Understand the local pattern before changing code.**
+## 3. Minimalist Excellence
+**High-quality logic for NEW code. Avoid brute-force and complexity.**
+- **50 vs 200**: If you write 200 lines and it could be 50, rewrite it. No speculative or "just-in-case" features.
+- **O(n) over O(n²)**: For *new* logic, prefer hash maps/sets over nested loops. Avoid O(n) operations (like `.includes`) inside loops.
+- **Flatten Indentation**: Avoid more than 2 levels of nesting. Use guard clauses (return early).
+- **Decomposition**: Extract complex state tracking into small, named functions.
 
-Before editing:
-- Inspect neighboring implementations and tests.
-- Check existing naming, layering, error handling, and test style.
-- Search for similar features before inventing a new pattern.
-- Prefer consistency with the codebase over personal preference.
+## 4. Goal-Driven Execution
+**Define success criteria. Plan -> Act -> Validate.**
+- Transform tasks into verifiable goals (e.g., "Write test for X, then make it pass").
+- For multi-step tasks, share a brief plan first.
+- **Loop until verified**: Validation is the only path to finality.
 
-## 3. Simplicity First
+## 5. Sacred API Contracts
+**Do not break backward compatibility. Contract-first design.**
+- **API First**: Update OpenAPI specs before implementation. Align implementation and tests.
+- **Compatibility**: Add optional fields only. Never rename fields. Treat Enums with caution (don't break clients).
+- **Shared Contracts**: Don't duplicate schemas. Use common dependencies and references.
 
-**Minimum code that solves the problem. Nothing speculative.**
-
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-
-## 4. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
-
-## 5. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
-
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
-
-## 6. Evolutionary API Design
-
-**Do not break backward compatibility. Treat APIs as sacred contracts.**
-
-- **API First**: Update OpenAPI specs before implementation. Align implementation, generated code, and tests.
-- **Shared Contracts**: Do not duplicate schemas across multiple APIs. Use a common API dependency and reference schemas using the "unpack & ref" pattern (e.g., extract YAML to `target/dependencies` via Maven and `$ref` it) to maintain a single source of truth.
-- **Compatibility**: Add optional fields only. Never rename fields or change semantics.
-- **Enums**: Extend input enums freely; be cautious with output enums as they may break clients.
-- **Versioning**: Prefer compatible extensions over versioning. Avoid breaking changes.
-
-## 7. Event-Driven & Messaging
-
+## 6. Reliable Messaging & Event-Driven
 **Design for asynchronous reliability and schema evolution.**
+- **Resilience**: Ensure idempotence and handle retries/DLQ. Design for "at least once" delivery.
+- **Evolution**: Use compatible schema changes. Consumers must tolerate unknown fields.
+- **Ordering**: Use stable partition keys when ordering is required.
 
-- **Schema Evolution**: Use compatible schema changes. Ensure consumers tolerate unknown fields.
-- **Ordering**: Use stable partition keys when message ordering is required.
-- **Reliability**: Ensure idempotence and handle retries/DLQ. Design for "at least once" delivery.
+## 7. Architectural Boundaries
+**Keep each layer focused on one kind of work.**
+- **Boundaries**: Controllers and adapters should only translate input, perform boundary-level validation, and delegate.
+- **Logic**: Keep transport-specific code out of core business logic.
+- **Models**: Share contract models only when owned and evolved together.
 
-## 8. Architecture & Boundaries
-
-**Keep each layer responsible for one kind of work.**
-
-- **Boundaries**: Controllers and adapters should translate external input, perform boundary-level validation, and delegate.
-- **Contracts**: Share contract models only when owned together and expected to evolve together. Keep generated code aligned with contract structure.
-
-## 9. Feedback-Driven Changes
-
+## 8. Feedback-Driven Focus
 **Fix the smallest real problem first.**
-
-- Resolve the specific concern being raised; don't silently solve a different problem.
+- Resolve the specific concern raised; don't silently solve a different problem.
 - If feedback asks for a rename, start with a rename, not a redesign.
-- Move only the responsibility that is misplaced. Don't refactor the whole layer.
+- Don't refactor the whole layer when only one responsibility is misplaced.
 
-## 10. Preserve Test Semantics
-
+## 9. Preserve Test Semantics
 **Don't silently change the kind of test you're writing.**
+- Keep existing integration or slice-test patterns. Don't convert to unit tests for easier mocking.
+- Rename tests when the current name no longer matches behavior.
+- Use narrow fixture overrides instead of rebuilding test scaffolding.
 
-- Keep existing integration or slice-test patterns.
-- Don't convert them to unit tests just to make mocking easier.
-- Rename tests when the current name no longer matches the behavior.
-- Prefer narrow fixture or property overrides over rebuilding test scaffolding.
-
-## 11. Computational Efficiency & Clean Logic
-
-**Avoid brute-force solutions and deep nesting.**
-
-- **O(n) over O(n²)**: Prefer hash maps/sets over nested loops for lookups or duplicate checks.
-- **Flatten Indentation**: Avoid more than 2 levels of nesting. Use guard clauses (return early) to keep logic flat.
-- **Hidden Loops**: Be mindful of O(n) operations inside loops (e.g., `.includes`, `.indexOf`, `List.contains`).
-- **State Management**: If logic requires multiple index variables (i, j, k), decompose it into smaller, named functions to avoid scope confusion.
-
-## 12. Project Lessons
-
-**Keep this section short. Add only repeated mistakes observed while using coding agents.**
-
+## 10. Project Lessons Engine
+**Distill PR feedback into living lessons to avoid repeated traps.**
+- Add only repeated mistakes observed while using coding agents.
+- Keep bullet points concise and action-oriented.
 - (Add project-specific mistakes here as they happen)
 
 ---
-
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
