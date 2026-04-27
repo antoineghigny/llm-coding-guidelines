@@ -60,7 +60,14 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 5. Feedback-Driven Changes
+## 5. Architecture & Boundaries
+
+**Keep each layer responsible for one kind of work.**
+
+- **Boundaries**: Controllers and adapters should translate input, validate, and delegate. Keep transport-specific code out of business logic.
+- **Contracts**: Define shared models once. Duplicate schemas signal misplaced ownership. Keep generated code aligned with contract structure.
+
+## 6. Feedback-Driven Changes
 
 **Fix the smallest real problem first.**
 
@@ -68,19 +75,12 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - If feedback asks for a rename, start with a rename, not a redesign.
 - Move only the responsibility that is misplaced. Don't refactor the whole layer.
 
-## 6. Preserve Test Semantics
+## 7. Preserve Test Semantics
 
 **Don't silently change the kind of test you're writing.**
 
 - Keep existing integration or slice-test patterns.
 - Don't convert them to unit tests just to make mocking easier.
-
-## 7. Architecture & Boundaries
-
-**Keep each layer responsible for one kind of work.**
-
-- **Boundaries**: Controllers and adapters should translate input, validate, and delegate. Keep transport-specific code out of business logic.
-- **Contracts**: Define shared models once. Duplicate schemas signal misplaced ownership. Keep generated code aligned with contract structure.
 
 ## 8. Project Lessons
 
