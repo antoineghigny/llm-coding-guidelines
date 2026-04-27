@@ -8,60 +8,55 @@ license: MIT
 
 Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
-
-## 1. Think Before Coding
-
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
-
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
+## 1. Think & Surface Tradeoffs
+**Don't assume. Don't hide confusion. Clarify before guessing.**
+- State assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
+- Push back on overcomplicated requests.
 
-## 2. Simplicity First
+## 2. Contextual Surgicality
+**Match the local pattern for existing code. Clean up only your own mess.**
+- **Read First**: Inspect neighboring naming, layering, and error handling before editing.
+- **Surgical Edits**: Match existing style for surgical changes. Don't "improve" adjacent code.
 
-**Minimum code that solves the problem. Nothing speculative.**
-
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-
-## 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
+## 3. Minimalist Excellence
+**High-quality logic for NEW code. Avoid brute-force and complexity.**
+- **50 vs 200**: If you write 200 lines and it could be 50, rewrite it.
+- **Efficiency**: Prefer hash maps/sets over nested loops. Avoid O(n) operations in loops.
+- **Flatten Indentation**: Avoid more than 2 levels of nesting. Use guard clauses.
 
 ## 4. Goal-Driven Execution
+**Define success criteria. Plan -> Act -> Validate.**
+- Transform tasks into verifiable goals.
+- For multi-step tasks, share a brief plan first.
+- **Loop until verified**: Validation is the only path to finality.
 
-**Define success criteria. Loop until verified.**
+## 5. Sacred API Contracts
+**Do not break backward compatibility. Contract-first design.**
+- **API First**: Update OpenAPI specs before implementation.
+- **Compatibility**: Add optional fields only. Never rename fields.
 
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
+## 6. Reliable Messaging & Event-Driven
+**Design for asynchronous reliability and schema evolution.**
+- **Resilience**: Ensure idempotence and handle retries/DLQ.
+- **Evolution**: Consumers must tolerate unknown fields.
 
-For multi-step tasks, state a brief plan:
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
+## 7. Architectural Boundaries
+**Keep each layer focused on one kind of work.**
+- **Boundaries**: Controllers delegate, logic stays pure.
+- **Logic**: Keep transport-specific code out of core business logic.
 
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+## 8. Feedback-Driven Focus
+**Fix the smallest real problem first.**
+- Resolve the specific concern raised.
+- If feedback asks for a rename, start with a rename, not a redesign.
+
+## 9. Preserve Test Semantics
+**Don't silently change the kind of test you're writing.**
+- Keep existing integration or slice-test patterns. Don't convert to unit tests.
+- Use narrow fixture overrides instead of rebuilding test scaffolding.
+
+## 10. Project Lessons Engine
+**Distill PR feedback into living lessons to avoid repeated traps.**
+- Add only repeated mistakes observed while using coding agents.
+- (Add project-specific mistakes here as they happen)
