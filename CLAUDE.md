@@ -26,13 +26,19 @@ Before implementing:
 
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-## 3. Surgical & Feedback-Driven Changes
+## 3. Surgical Changes
 
-**Touch only what you must. Fix the exact concern raised.**
+**Touch only what you must. Clean up only your own mess.**
 
-- Match existing style. Don't refactor or format adjacent working code.
-- Resolve specific feedback directly (e.g., if asked to rename, just rename; don't redesign).
-- Remove only the dead code your changes create. Don't remove pre-existing dead code unless asked.
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
 
 The test: Every changed line should trace directly to the user's request.
 
@@ -45,14 +51,22 @@ Transform tasks into verifiable goals:
 - "Fix the bug" → "Write a test that reproduces it, then make it pass"
 - "Refactor X" → "Ensure tests pass before and after"
 
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 5. Architecture & Boundaries
+## 5. Feedback-Driven Changes
 
-**Keep each layer responsible for one kind of work.**
+**Fix the smallest real problem first.**
 
-- **Boundaries**: Controllers and adapters translate input, validate, and delegate. Keep transport-specific code out of business logic.
-- **Contracts**: Define shared models once. Duplicate schemas signal misplaced ownership. Keep generated code aligned with contract structure.
+- Resolve the specific concern being raised; don't silently solve a different problem.
+- If feedback asks for a rename, start with a rename, not a redesign.
+- Move only the responsibility that is misplaced. Don't refactor the whole layer.
 
 ## 6. Preserve Test Semantics
 
@@ -61,14 +75,21 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Keep existing integration or slice-test patterns.
 - Don't convert them to unit tests just to make mocking easier.
 
-## 7. Configuration & Wiring
+## 7. Architecture & Boundaries
+
+**Keep each layer responsible for one kind of work.**
+
+- **Boundaries**: Controllers and adapters translate input, validate, and delegate. Keep transport-specific code out of business logic.
+- **Contracts**: Define shared models once. Duplicate schemas signal misplaced ownership. Keep generated code aligned with contract structure.
+
+## 8. Configuration & Wiring
 
 **Never guess where runtime state comes from.**
 
 - **Traceability**: Trace configuration through local files, servers, and deployment manifests.
 - **Flags**: A feature flag is only correct when every component that creates, injects, or calls it follows the flag.
 
-## 8. Project Lessons
+## 9. Project Lessons
 
 **Keep this section short. Add only repeated mistakes observed in review.**
 
