@@ -33,8 +33,11 @@ Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej
 
 ## 5. Sacred API Contracts
 **Do not break backward compatibility. Contract-first design.**
-- **API First**: Update OpenAPI specs before implementation.
-- **Compatibility**: Add optional fields only. Never rename fields.
+- **API First**: When changing API behavior or schemas, update OpenAPI specs before implementation.
+- **Compatibility**: For public APIs, add optional fields only. Never rename fields.
+- **Schema Ownership**: Identify where API schemas are owned before adding or editing them.
+- **No Cross-Module Source Links**: Consume shared contracts through project dependencies or packaging, not direct source links.
+- **Contract Verification**: For generated API code, verify generation and compilation after changing the contract.
 
 ## 6. Reliable Messaging & Event-Driven
 **Design for asynchronous reliability and schema evolution.**
@@ -43,7 +46,8 @@ Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej
 
 ## 7. Architectural Boundaries
 **Keep each layer focused on one kind of work.**
-- **Boundaries**: Controllers delegate, logic stays pure.
+- **Boundaries**: Controllers and adapters receive input, perform boundary-level validation, log boundary context, and delegate.
+- **Translation Ownership**: Translation into internal commands, events, entities, or domain models belongs in the layer that owns the operation.
 - **Logic**: Keep transport-specific code out of core business logic.
 
 ## 8. Feedback-Driven Focus
@@ -54,9 +58,18 @@ Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej
 ## 9. Preserve Test Semantics
 **Don't silently change the kind of test you're writing.**
 - Keep existing integration or slice-test patterns. Don't convert to unit tests.
+- Integration tests should exercise real application wiring and assert observable outcomes.
+- Do not mock the primary path of an integration test just to make it easier to write.
+- Use unit tests for internal delegation, mocks, argument capture, and method-call verification.
 - Use narrow fixture overrides instead of rebuilding test scaffolding.
 
-## 10. Project Lessons Engine
+## 10. Implementation Hygiene
+**Avoid transitional shortcuts that survive into the final diff.**
+- Do not leave fully-qualified names in normal code when an import would be clearer.
+- Do not leave names from earlier iterations after the responsibility or behavior changed.
+- Before final validation, scan the diff for shortcuts and either remove them or justify them.
+
+## 11. Project Lessons Engine
 **Distill PR feedback into living lessons to avoid repeated traps.**
 - Add only repeated mistakes observed while using coding agents.
 - (Add project-specific mistakes here as they happen)

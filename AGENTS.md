@@ -42,8 +42,10 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 **Do not break backward compatibility. Contract-first design.**
 - **API First**: When changing API behavior or schemas, update OpenAPI specs before implementation. Align implementation and tests.
 - **Compatibility**: For public APIs, add optional fields only. Never rename fields. Treat enums with caution because new or changed values can break clients.
+- **Schema Ownership**: Before adding or editing an API schema, identify where the model is owned. Shared enums, base payloads, and reusable object shapes should be defined once in the contract that owns them.
 - **Shared Contracts**: Don't duplicate schemas casually, but don't force sharing across ownership boundaries. Use common dependencies and references when models are owned and evolved together.
-- **Generated Code**: Keep generated code aligned with contract structure.
+- **No Cross-Module Source Links**: Do not couple contracts by referencing another module's source files directly. Consume shared contracts through the dependency or packaging mechanism used by the project.
+- **Contract Verification**: For generated API code, verify generation and compilation after changing the contract.
 
 ## 6. Reliable Messaging & Event-Driven
 **Design for asynchronous reliability and schema evolution.**
@@ -53,9 +55,9 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 ## 7. Architectural Boundaries
 **Keep each layer focused on one kind of work.**
-- **Boundaries**: Controllers and adapters should only translate input, perform boundary-level validation, and delegate.
+- **Boundaries**: Controllers and adapters should receive input, perform boundary-level validation, log boundary context, and delegate.
+- **Translation Ownership**: Translation into internal commands, events, entities, or domain models belongs in the layer that owns the operation, not automatically in the transport layer.
 - **Logic**: Keep transport-specific code out of core business logic.
-- **Models**: Share contract models only when owned and evolved together.
 
 ## 8. Feedback-Driven Focus
 **Fix the smallest real problem first.**
@@ -66,10 +68,20 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 ## 9. Preserve Test Semantics
 **Don't silently change the kind of test you're writing.**
 - Keep existing integration or slice-test patterns. Don't convert to unit tests for easier mocking.
+- Integration tests should exercise the real application wiring for the behavior under test.
+- Do not mock the primary path of an integration test just to make the test easier to write.
+- Integration tests should assert observable outcomes, such as persisted state, emitted messages, returned responses, or captured boundary calls.
+- Use unit tests for internal delegation, mocks, argument capture, and method-call verification.
 - Rename tests when the current name no longer matches behavior.
 - Use narrow fixture or property overrides instead of rebuilding test scaffolding.
 
-## 10. Project Lessons Engine
+## 10. Implementation Hygiene
+**Avoid transitional shortcuts that survive into the final diff.**
+- Do not leave fully-qualified names in normal code when an import would be clearer.
+- Do not leave names from earlier iterations of the feature after the responsibility or behavior changed.
+- Before final validation, scan the diff for shortcuts taken during development and either remove them or justify them.
+
+## 11. Project Lessons Engine
 **Distill PR feedback into living lessons to avoid repeated traps.**
 - Add only repeated mistakes observed while using coding agents.
 - Keep bullet points concise and action-oriented.

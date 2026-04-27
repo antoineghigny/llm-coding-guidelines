@@ -10,10 +10,10 @@ The original Karpathy guidelines were a fantastic starting point for general beh
 
 I created this fork to solve my own pain point:
 1. **Prioritizing Core Principles**: Restoring Karpathy's original rules (Think & Surface Tradeoffs, Contextual Surgicality, Minimalist Excellence, Goal-Driven Execution) exactly as they were intended.
-2. **Architectural Guardrails**: Integrating strict API standards, Reliable Messaging, and Boundary enforcement to prevent common PR rejections.
+2. **Architectural and Implementation Guardrails**: Integrating strict API standards, Reliable Messaging, Boundary enforcement, and implementation hygiene to prevent common PR rejections.
 3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section.
 
-## The 10 Principles
+## The 11 Principles
 
 1. **Think & Surface Tradeoffs**: Don't assume. Clarify before guessing. Surface tradeoffs.
 2. **Contextual Surgicality**: Match local pattern for existing code. Clean up only your own mess.
@@ -21,10 +21,11 @@ I created this fork to solve my own pain point:
 4. **Goal-Driven Execution**: Define verifiable success criteria. Plan -> Act -> Validate.
 5. **Sacred API Contracts**: No breaking changes. Contract-first design.
 6. **Reliable Messaging**: Design for resilience and async schema evolution.
-7. **Architectural Boundaries**: Keep layers focused. Controllers delegate, logic stays pure.
+7. **Architectural Boundaries**: Keep layers focused. Boundaries validate, log, and delegate; operation owners translate.
 8. **Feedback-Driven Focus**: Fix the smallest real problem first. Resolve the specific concern raised.
 9. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
-10. **Project Lessons Engine**: Distill past PR feedback into lessons to avoid repeating traps.
+10. **Implementation Hygiene**: Remove transitional shortcuts before the final diff.
+11. **Project Lessons Engine**: Distill past PR feedback into lessons to avoid repeating traps.
 
 ## Workflow: The PR Review Loop
 
