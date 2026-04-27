@@ -11,9 +11,8 @@ The original Karpathy guidelines were a fantastic starting point for general beh
 I created this fork to solve my own pain point:
 1. **Prioritizing Core Principles**: Restoring Karpathy's original rules (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) exactly as they were intended.
 2. **Evolutionary API Standards**: Integrating a strict "Contract First" policy (OpenAPI 3.0, Backward Compatibility, JSON Response Shape) to prevent breaking consumers.
-3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section.
 
-## The 10 Principles
+## The 9 Principles
 
 1. **Think Before Coding**: Don't assume. Clarify over guesswork. Surface tradeoffs.
 2. **Read Before Editing**: Understand the local pattern before changing code. Inspect neighbors.
@@ -24,7 +23,6 @@ I created this fork to solve my own pain point:
 7. **Architecture & Boundaries**: Keep each layer focused. Perform boundary-level validation.
 8. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
 9. **Preserve Test Semantics**: Don't silently change integration tests to unit tests. Use narrow overrides.
-10. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
 
 ## Workflow: The PR Review Loop
 
@@ -39,9 +37,8 @@ Simply copy the guidelines into your project root. The exact same guidelines are
 1. Pick the file(s) that match your workflow and add it to your project repository.
 2. Assign a feature task to your LLM.
 3. Submit the PR.
-4. **When you receive feedback about an architectural or implementation mistake the LLM made, DO NOT just fix the code. Add the core lesson as a new bullet point under the `Project Lessons` section of your guideline file.**
-5. Commit the updated guideline file.
-6. The next time the LLM works on a feature, it will read its past mistake and avoid it. You stop wasting time on the same issues.
+4. Commit the updated guideline file.
+5. The next time the LLM works on a feature, it will read its past mistake and avoid it. You stop wasting time on the same issues.
 
 ## How to Know It's Working
 

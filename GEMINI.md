@@ -108,12 +108,6 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Rename tests when the current name no longer matches the behavior being verified.
 - Prefer narrow fixture or property overrides over rebuilding test scaffolding.
 
-## 10. Project Lessons
-
-**Keep this section short. Add only repeated mistakes observed while using coding agents.**
-
-- (Add project-specific mistakes here as they happen)
-
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
