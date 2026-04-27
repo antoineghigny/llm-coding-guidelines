@@ -118,7 +118,16 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Rename tests when the current name no longer matches the behavior.
 - Prefer narrow fixture or property overrides over rebuilding test scaffolding.
 
-## 11. Project Lessons
+## 11. Computational Efficiency & Clean Logic
+
+**Avoid brute-force solutions and deep nesting.**
+
+- **O(n) over O(n²)**: Prefer hash maps/sets over nested loops for lookups or duplicate checks.
+- **Flatten Indentation**: Avoid more than 2 levels of nesting. Use guard clauses (return early) to keep logic flat.
+- **Hidden Loops**: Be mindful of O(n) operations inside loops (e.g., `.includes`, `.indexOf`, `List.contains`).
+- **State Management**: If logic requires multiple index variables (i, j, k), decompose it into smaller, named functions to avoid scope confusion.
+
+## 12. Project Lessons
 
 **Keep this section short. Add only repeated mistakes observed while using coding agents.**
 

@@ -92,7 +92,16 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - **Ordering**: Use stable partition keys when message ordering is required.
 - **Reliability**: Ensure idempotence and handle retries/DLQ. Design for "at least once" delivery.
 
-## 8. Project Lessons
+## 9. Computational Efficiency & Clean Logic
+
+**Avoid brute-force solutions and deep nesting.**
+
+- **O(n) over O(n²)**: Prefer hash maps/sets over nested loops for lookups or duplicate checks.
+- **Flatten Indentation**: Avoid more than 2 levels of nesting. Use guard clauses (return early) to keep logic flat.
+- **Hidden Loops**: Be mindful of O(n) operations inside loops (e.g., `.includes`, `.indexOf`, `List.contains`).
+- **State Management**: If logic requires multiple index variables (i, j, k), decompose it into smaller, named functions to avoid scope confusion.
+
+## 10. Project Lessons
 
 **Keep this section short. Add only repeated mistakes observed while using coding agents.**
 

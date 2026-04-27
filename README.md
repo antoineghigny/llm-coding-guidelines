@@ -14,7 +14,7 @@ I created this fork to solve my own pain point:
 3. **Event-Driven Guardrails**: Guidelines for reliable messaging and schema evolution in asynchronous systems.
 4. **The "Project Lessons" Ledger**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section.
 
-## The 11 Principles
+## The 12 Principles
 
 1. **Think Before Coding**: Don't assume. Clarify over guesswork. Surface tradeoffs.
 2. **Read Before Editing**: Understand the local pattern before changing code. Inspect neighbors.
@@ -26,7 +26,8 @@ I created this fork to solve my own pain point:
 8. **Architecture & Boundaries**: Keep each layer focused. Perform boundary-level validation.
 9. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
 10. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
-11. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
+11. **Computational Efficiency & Clean Logic**: Avoid brute-force O(n²) and deep nesting.
+12. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
 
 ## Workflow: The PR Review Loop
 
