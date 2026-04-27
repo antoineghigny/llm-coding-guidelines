@@ -71,23 +71,22 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 6. Architecture & Boundaries
+## 6. Evolutionary API Design
+
+**Do not break backward compatibility. Treat APIs as sacred contracts.**
+
+- **API First**: Update OpenAPI 3.0 specs before implementation. Treat them as the source of truth. Keep specs self-contained. Align implementation, generated code, and tests.
+- **Compatibility**: Never break providers/consumers. Add optional fields only. Never make optional fields mandatory, rename fields, or change semantics. Prefer extensions over versioning. Avoid URL versioning (`/v1/...`).
+- **Extensibility**: Objects are open for extension (`additionalProperties: true`). Top-level response must always be a JSON object (never a bare array). Wrap collections in an `items` field.
+- **Semantics**: Use plural nouns, kebab-case for paths, and camelCase for query parameters. Keep nesting max 3 levels deep.
+- **HTTP & Errors**: Use specific status codes (e.g., 201 for creation, 207 for batch, 410 for gone). Do not expose stack traces. Use standard kebab-case headers.
+
+## 7. Architecture & Boundaries
 
 **Keep each layer responsible for one kind of work.**
 
 - **Boundaries**: Controllers and adapters should translate external input, perform boundary-level validation when appropriate, and delegate. Keep transport-specific code out of business logic.
-- **Responsibility**: Move only the responsibility that is misplaced. Don't refactor the whole layer if only one part is misplaced.
-
-## 7. API Design & Evolution
-
-**Follow API First and ensure backward compatibility.**
-
-- **Contracts**: Use OpenAPI 3.0 as the source of truth. Keep specification, generated code, and tests aligned.
-- **Compatibility**: Never make unilateral incompatible changes (removing fields, changing semantics, making optional fields mandatory). Add optional fields only.
-- **Extensibility**: Objects are open by default. Clients must ignore unknown response fields. Servers must NEVER use `additionalProperties: false`.
-- **Response Shape**: Always return a JSON object at the top level (no bare arrays/strings). Wrap collections in an `items` field.
-- **Codes & Errors**: Use specific HTTP codes (e.g., 207 for bulk with item-level status, 410 for known-deleted resources). Do not expose stack traces.
-- **Naming**: Use domain-specific plural nouns, kebab-case for paths, and camelCase for query parameters.
+- **Contracts**: Share contract models only when they are owned together and expected to evolve together. Duplicate schemas are a signal to check ownership, not proof that sharing is required. Keep generated code aligned with contract structure.
 
 ## 8. Feedback-Driven Changes
 
@@ -95,6 +94,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 - Resolve the specific concern being raised; don't silently solve a different problem.
 - If feedback asks for a rename, start with a rename, not a redesign.
+- Move only the responsibility that is misplaced. Don't refactor the whole layer.
 
 ## 9. Preserve Test Semantics
 
