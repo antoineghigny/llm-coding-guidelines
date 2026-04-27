@@ -1,9 +1,4 @@
----
-description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
-alwaysApply: true
----
-
-# Karpathy behavioral guidelines
+# CLAUDE.md
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
@@ -18,7 +13,6 @@ Before implementing:
 - If multiple interpretations exist, present them - don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
-- **Clarification over Guesswork**: If a request is ambiguous or underspecified, stop. Research the codebase, docs, and available context before guessing. Use external search only when the answer depends on public or up-to-date information. When an assumption affects behavior, architecture, data contracts, or public APIs, verify it before implementing.
 
 ## 2. Simplicity First
 
@@ -65,36 +59,6 @@ For multi-step tasks, state a brief plan:
 ```
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
-
-## 5. Architecture & Boundaries
-
-**Keep each layer responsible for one kind of work.**
-
-- **Boundaries**: Controllers and adapters should translate external input, perform boundary-level validation when appropriate, and delegate. Keep transport-specific code out of business logic.
-- **Contracts**: Share contract models only when they are owned together and expected to evolve together. Duplicate schemas are a signal to check ownership, not proof that sharing is required. Keep generated code aligned with contract structure.
-
-## 6. Feedback-Driven Changes
-
-**Fix the smallest real problem first.**
-
-- Resolve the specific concern being raised; don't silently solve a different problem.
-- If feedback asks for a rename, start with a rename, not a redesign.
-- Move only the responsibility that is misplaced. Don't refactor the whole layer.
-
-## 7. Preserve Test Semantics
-
-**Don't silently change the kind of test you're writing.**
-
-- Keep existing integration or slice-test patterns.
-- Don't convert them to unit tests just to make mocking easier.
-- Rename tests when the current name no longer matches the behavior being verified.
-- Prefer narrow fixture or property overrides over rebuilding test scaffolding.
-
-## 8. Project Lessons
-
-**Keep this section short. Add only repeated mistakes observed while using coding agents.**
-
-- (Add project-specific mistakes here as they happen)
 
 ---
 
