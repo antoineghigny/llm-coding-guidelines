@@ -76,6 +76,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 **Do not break backward compatibility. Treat APIs as sacred contracts.**
 
 - **API First**: Update OpenAPI specs before implementation. Align implementation, generated code, and tests.
+- **Shared Contracts**: Do not duplicate schemas across multiple APIs. Use a common API dependency and reference schemas using the "unpack & ref" pattern (e.g., extract YAML to `target/dependencies` via Maven and `$ref` it) to maintain a single source of truth.
 - **Compatibility**: Add optional fields only. Never rename fields or change semantics.
 - **Enums**: Extend input enums freely; be cautious with output enums as they may break clients.
 - **Versioning**: Prefer compatible extensions over versioning. Avoid breaking changes.
