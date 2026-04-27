@@ -11,7 +11,7 @@ The original Karpathy guidelines were a fantastic starting point for general beh
 I created this fork to solve my own pain point:
 1. **Prioritizing Core Principles**: Restoring Karpathy's original rules (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) exactly as they were intended.
 2. **Merging Logic for Architectural Guardrails**: Introducing specific behavioral guardrails based on real PR reviews (Architecture & Boundaries, Feedback-Driven Changes, Test Semantics).
-3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new PR reviews. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section. The next time the LLM touches the codebase, it reads the lesson and avoids the trap.
+3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section. The next time the LLM touches the codebase, it reads the lesson and avoids the trap.
 
 ## The 8 Principles
 
@@ -19,10 +19,10 @@ I created this fork to solve my own pain point:
 2. **Simplicity First**: Minimum code that solves the problem. Nothing speculative.
 3. **Surgical Changes**: Touch only what you must. Clean up only your own mess.
 4. **Goal-Driven Execution**: Define verifiable success criteria. Loop until verified.
-5. **Architecture & Boundaries**: Keep each layer focused. Define contracts once.
+5. **Architecture & Boundaries**: Keep each layer focused. Perform boundary-level validation.
 6. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
-7. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
-8. **Project Lessons**: A living section to append specific mistakes observed during code review so the LLM learns your project's traps.
+7. **Preserve Test Semantics**: Don't silently change integration tests to unit tests. Use narrow overrides.
+8. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
 
 ## Workflow: The PR Review Loop
 
@@ -37,9 +37,9 @@ Simply copy the guidelines into your project root. The exact same guidelines are
 1. Pick the file(s) that match your workflow and add it to your project repository.
 2. Assign a feature task to your LLM.
 3. Submit the PR.
-4. **When you receive PR review feedback about an architectural or implementation mistake the LLM made, DO NOT just fix the code. Add the core lesson as a new bullet point under the `Project Lessons` section of your guideline file.**
+4. **When you receive feedback about an architectural or implementation mistake the LLM made, DO NOT just fix the code. Add the core lesson as a new bullet point under the `Project Lessons` section of your guideline file.**
 5. Commit the updated guideline file.
-6. The next time the LLM works on a feature, it will read its past mistake and avoid it. You stop wasting time on the same reviews.
+6. The next time the LLM works on a feature, it will read its past mistake and avoid it. You stop wasting time on the same issues.
 
 ## How to Know It's Working
 
