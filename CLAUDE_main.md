@@ -1,4 +1,4 @@
-# AGENTS.md
+# CLAUDE.md
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
@@ -59,55 +59,6 @@ For multi-step tasks, state a brief plan:
 ```
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
-
-## 5. Feedback-Driven Changes
-
-**Fix the smallest real problem first.**
-
-- Resolve the specific concern being raised; don't silently solve a different problem.
-- If feedback asks for a rename, start with a rename, not a redesign.
-
-## 6. Preserve Test Semantics
-
-**Don't silently change the kind of test you're writing.**
-
-- Keep existing integration or slice-test patterns.
-- Don't convert them to unit tests just to make mocking easier.
-
-## 7. Architecture & Boundaries
-
-**Keep each layer responsible for one kind of work.**
-
-- **Boundaries**: Controllers and adapters should translate input, validate, and delegate. Keep transport-specific code out of business logic.
-- **Dependencies**: Prefer the simplest dependency graph. Don't assume transitive availability. Avoid noisy fully-qualified imports.
-
-## 8. API Contracts & Generation
-
-**Treat API contracts and generators as first-class code.**
-
-- **Shared Models**: Define shared contract models once. Duplicate schemas are a signal to check ownership.
-- **Generation**: Keep generated code aligned with contract structure. Update generator configurations and schema mappings as the contract evolves.
-
-## 9. Configuration, Flags & Wiring
-
-**Never guess where runtime state comes from.**
-
-- **Config**: Trace configuration through local files, servers, and deployment manifests.
-- **Feature Flags**: A flag is correct only when the whole wiring (creation, injection, calling) follows it.
-- **Messaging**: Verify the real message flow (producer/consumer) and deployment topology before changing infrastructure.
-
-## 10. End-To-End Verification
-
-**Verify across all affected layers.**
-
-- Changes crossing code, contracts, config, and infra need cross-layer verification, not just source diffs.
-- Treat local unpublished artifacts as temporary verification aids, not final solutions.
-
-## 11. Project Lessons
-
-**Keep this section short. Add only repeated mistakes observed in review.**
-
-- (Add project-specific mistakes here as they happen)
 
 ---
 

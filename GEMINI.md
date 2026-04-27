@@ -1,11 +1,13 @@
-# AI Coding Guidelines
+# GEMINI.md
 
-Behavioral guidelines to reduce common AI coding mistakes. Merge with project-specific instructions as needed.
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
 ## 1. Think Before Coding
+
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
+
 Before implementing:
 - State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
@@ -13,7 +15,9 @@ Before implementing:
 - If something is unclear, stop. Name what's confusing. Ask.
 
 ## 2. Simplicity First
+
 **Minimum code that solves the problem. Nothing speculative.**
+
 - No features beyond what was asked.
 - No abstractions for single-use code.
 - No "flexibility" or "configurability" that wasn't requested.
@@ -23,7 +27,9 @@ Before implementing:
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
 ## 3. Surgical Changes
+
 **Touch only what you must. Clean up only your own mess.**
+
 When editing existing code:
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor things that aren't broken.
@@ -37,45 +43,72 @@ When your changes create orphans:
 The test: Every changed line should trace directly to the user's request.
 
 ## 4. Goal-Driven Execution
+
 **Define success criteria. Loop until verified.**
+
 Transform tasks into verifiable goals:
 - "Add validation" → "Write tests for invalid inputs, then make them pass"
 - "Fix the bug" → "Write a test that reproduces it, then make it pass"
 - "Refactor X" → "Ensure tests pass before and after"
 
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
 ## 5. Feedback-Driven Changes
+
 **Fix the smallest real problem first.**
+
 - Resolve the specific concern being raised; don't silently solve a different problem.
 - If feedback asks for a rename, start with a rename, not a redesign.
 
 ## 6. Preserve Test Semantics
+
 **Don't silently change the kind of test you're writing.**
+
 - Keep existing integration or slice-test patterns.
 - Don't convert them to unit tests just to make mocking easier.
 
 ## 7. Architecture & Boundaries
+
 **Keep each layer responsible for one kind of work.**
+
 - **Boundaries**: Controllers and adapters should translate input, validate, and delegate. Keep transport-specific code out of business logic.
 - **Dependencies**: Prefer the simplest dependency graph. Don't assume transitive availability. Avoid noisy fully-qualified imports.
 
 ## 8. API Contracts & Generation
+
 **Treat API contracts and generators as first-class code.**
+
 - **Shared Models**: Define shared contract models once. Duplicate schemas are a signal to check ownership.
 - **Generation**: Keep generated code aligned with contract structure. Update generator configurations and schema mappings as the contract evolves.
 
 ## 9. Configuration, Flags & Wiring
+
 **Never guess where runtime state comes from.**
+
 - **Config**: Trace configuration through local files, servers, and deployment manifests.
 - **Feature Flags**: A flag is correct only when the whole wiring (creation, injection, calling) follows it.
 - **Messaging**: Verify the real message flow (producer/consumer) and deployment topology before changing infrastructure.
 
 ## 10. End-To-End Verification
+
 **Verify across all affected layers.**
+
 - Changes crossing code, contracts, config, and infra need cross-layer verification, not just source diffs.
 - Treat local unpublished artifacts as temporary verification aids, not final solutions.
 
 ## 11. Project Lessons
+
 **Keep this section short. Add only repeated mistakes observed in review.**
+
 - (Add project-specific mistakes here as they happen)
+
+---
+
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
