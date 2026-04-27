@@ -4,13 +4,13 @@ A unified set of behavioral guidelines (`CLAUDE.md`, `GEMINI.md`, `AGENTS.md`) d
 
 ## Why I created this fork
 
-I use LLMs heavily to code features, but I noticed a frustrating pattern: **the LLM would systematically fall into the exact same traps, leading to the exact same PR review comments from my team.** I was losing time fixing the same architectural mistakes (like degrading integration tests into unit tests, messing up feature-flag wiring, or mismanaging OpenAPI contracts).
+I use LLMs heavily to code features, but I noticed a frustrating pattern: **the LLM would systematically fall into the exact same traps, leading to the exact same PR review comments from my team.** I was losing time fixing the same architectural mistakes (like breaking API compatibility, degrading integration tests, or mismanaging OpenAPI contracts).
 
 The original Karpathy guidelines were a fantastic starting point for general behavior, but they lacked specific architectural guardrails and a mechanism for continuous learning on a specific codebase.
 
 I created this fork to solve my own pain point:
 1. **Prioritizing Core Principles**: Restoring Karpathy's original rules (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) exactly as they were intended.
-2. **Merging Logic for Architectural Guardrails**: Introducing specific behavioral guardrails based on real PR reviews (Architecture & Boundaries, Feedback-Driven Changes, Test Semantics).
+2. **Merging Logic for Architectural Guardrails**: Introducing specific behavioral guardrails based on real PR reviews (API Design & Evolution, Architecture & Boundaries, Feedback-Driven Changes, Test Semantics).
 3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section. The next time the LLM touches the codebase, it reads the lesson and avoids the trap.
 
 ## The 9 Principles
@@ -21,9 +21,10 @@ I created this fork to solve my own pain point:
 4. **Surgical Changes**: Touch only what you must. Clean up only your own mess.
 5. **Goal-Driven Execution**: Define verifiable success criteria. Loop until verified.
 6. **Architecture & Boundaries**: Keep each layer focused. Perform boundary-level validation.
-7. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
-8. **Preserve Test Semantics**: Don't silently change integration tests to unit tests. Use narrow overrides.
-9. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
+7. **API Design & Evolution**: Follow API First. Ensure backward compatibility and extensibility (NEVER use `additionalProperties: false`).
+8. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
+9. **Preserve Test Semantics**: Don't silently change integration tests to unit tests. Use narrow overrides.
+10. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
 
 ## Workflow: The PR Review Loop
 
@@ -46,6 +47,6 @@ Simply copy the guidelines into your project root. The exact same guidelines are
 
 These guidelines are working if you see:
 - **No more repetitive PR comments** — The LLM learns your project's specific architecture and testing standards.
+- **API compatibility is maintained** — The LLM doesn't break contracts by removing fields or renaming paths.
 - **Integration tests remain intact** — The LLM doesn't take shortcuts by mocking everything.
-- **Fewer unnecessary changes in diffs** — Only requested changes appear.
 - **Clean, minimal PRs** — No drive-by refactoring or unrequested "improvements".

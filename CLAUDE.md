@@ -76,17 +76,27 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 **Keep each layer responsible for one kind of work.**
 
 - **Boundaries**: Controllers and adapters should translate external input, perform boundary-level validation when appropriate, and delegate. Keep transport-specific code out of business logic.
-- **Contracts**: Share contract models only when they are owned together and expected to evolve together. Duplicate schemas are a signal to check ownership, not proof that sharing is required. Keep generated code aligned with contract structure.
+- **Responsibility**: Move only the responsibility that is misplaced. Don't refactor the whole layer if only one part is misplaced.
 
-## 7. Feedback-Driven Changes
+## 7. API Design & Evolution
+
+**Follow API First and ensure backward compatibility.**
+
+- **Contracts**: Use OpenAPI 3.0 as the source of truth. Keep specification, generated code, and tests aligned.
+- **Compatibility**: Never make unilateral incompatible changes (removing fields, changing semantics, making optional fields mandatory). Add optional fields only.
+- **Extensibility**: Objects are open by default. Clients must ignore unknown response fields. Servers must NEVER use `additionalProperties: false`.
+- **Response Shape**: Always return a JSON object at the top level (no bare arrays/strings). Wrap collections in an `items` field.
+- **Codes & Errors**: Use specific HTTP codes (e.g., 207 for bulk with item-level status, 410 for known-deleted resources). Do not expose stack traces.
+- **Naming**: Use domain-specific plural nouns, kebab-case for paths, and camelCase for query parameters.
+
+## 8. Feedback-Driven Changes
 
 **Fix the smallest real problem first.**
 
 - Resolve the specific concern being raised; don't silently solve a different problem.
 - If feedback asks for a rename, start with a rename, not a redesign.
-- Move only the responsibility that is misplaced. Don't refactor the whole layer.
 
-## 8. Preserve Test Semantics
+## 9. Preserve Test Semantics
 
 **Don't silently change the kind of test you're writing.**
 
@@ -95,7 +105,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Rename tests when the current name no longer matches the behavior being verified.
 - Prefer narrow fixture or property overrides over rebuilding test scaffolding.
 
-## 9. Project Lessons
+## 10. Project Lessons
 
 **Keep this section short. Add only repeated mistakes observed while using coding agents.**
 
