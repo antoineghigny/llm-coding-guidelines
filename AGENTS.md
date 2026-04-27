@@ -15,7 +15,17 @@ Before implementing:
 - If something is unclear, stop. Name what's confusing. Ask.
 - **Clarification over Guesswork**: If a request is ambiguous or underspecified, stop. Research the codebase, docs, and available context before guessing. Use external search only when the answer depends on public or up-to-date information. When an assumption affects behavior, architecture, data contracts, or public APIs, verify it before implementing.
 
-## 2. Simplicity First
+## 2. Read Before Editing
+
+**Understand the local pattern before changing code.**
+
+Before editing:
+- Inspect neighboring implementations and tests.
+- Check existing naming, layering, error handling, and test style.
+- Search for similar features before inventing a new pattern.
+- Prefer consistency with the codebase over personal preference.
+
+## 3. Simplicity First
 
 **Minimum code that solves the problem. Nothing speculative.**
 
@@ -27,7 +37,7 @@ Before implementing:
 
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-## 3. Surgical Changes
+## 4. Surgical Changes
 
 **Touch only what you must. Clean up only your own mess.**
 
@@ -43,7 +53,7 @@ When your changes create orphans:
 
 The test: Every changed line should trace directly to the user's request.
 
-## 4. Goal-Driven Execution
+## 5. Goal-Driven Execution
 
 **Define success criteria. Loop until verified.**
 
@@ -61,14 +71,14 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 5. Architecture & Boundaries
+## 6. Architecture & Boundaries
 
 **Keep each layer responsible for one kind of work.**
 
 - **Boundaries**: Controllers and adapters should translate external input, perform boundary-level validation when appropriate, and delegate. Keep transport-specific code out of business logic.
 - **Contracts**: Share contract models only when they are owned together and expected to evolve together. Duplicate schemas are a signal to check ownership, not proof that sharing is required. Keep generated code aligned with contract structure.
 
-## 6. Feedback-Driven Changes
+## 7. Feedback-Driven Changes
 
 **Fix the smallest real problem first.**
 
@@ -76,7 +86,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - If feedback asks for a rename, start with a rename, not a redesign.
 - Move only the responsibility that is misplaced. Don't refactor the whole layer.
 
-## 7. Preserve Test Semantics
+## 8. Preserve Test Semantics
 
 **Don't silently change the kind of test you're writing.**
 
@@ -85,7 +95,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Rename tests when the current name no longer matches the behavior being verified.
 - Prefer narrow fixture or property overrides over rebuilding test scaffolding.
 
-## 8. Project Lessons
+## 9. Project Lessons
 
 **Keep this section short. Add only repeated mistakes observed while using coding agents.**
 

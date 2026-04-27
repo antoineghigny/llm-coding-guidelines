@@ -13,16 +13,17 @@ I created this fork to solve my own pain point:
 2. **Merging Logic for Architectural Guardrails**: Introducing specific behavioral guardrails based on real PR reviews (Architecture & Boundaries, Feedback-Driven Changes, Test Semantics).
 3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section. The next time the LLM touches the codebase, it reads the lesson and avoids the trap.
 
-## The 8 Principles
+## The 9 Principles
 
 1. **Think Before Coding**: Don't assume. Clarify over guesswork. Prioritize research and questions if ambiguous.
-2. **Simplicity First**: Minimum code that solves the problem. Nothing speculative.
-3. **Surgical Changes**: Touch only what you must. Clean up only your own mess.
-4. **Goal-Driven Execution**: Define verifiable success criteria. Loop until verified.
-5. **Architecture & Boundaries**: Keep each layer focused. Perform boundary-level validation.
-6. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
-7. **Preserve Test Semantics**: Don't silently change integration tests to unit tests. Use narrow overrides.
-8. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
+2. **Read Before Editing**: Understand the local pattern before changing code. Inspect neighbors and search for similar features.
+3. **Simplicity First**: Minimum code that solves the problem. Nothing speculative.
+4. **Surgical Changes**: Touch only what you must. Clean up only your own mess.
+5. **Goal-Driven Execution**: Define verifiable success criteria. Loop until verified.
+6. **Architecture & Boundaries**: Keep each layer focused. Perform boundary-level validation.
+7. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
+8. **Preserve Test Semantics**: Don't silently change integration tests to unit tests. Use narrow overrides.
+9. **Project Lessons**: A living section to append specific mistakes observed while using coding agents.
 
 ## Workflow: The PR Review Loop
 

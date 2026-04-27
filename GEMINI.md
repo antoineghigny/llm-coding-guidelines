@@ -15,7 +15,17 @@ Before implementing:
 - If something is unclear, stop. Name what's confusing. Ask.
 - **Clarification over Guesswork**: If a request is ambiguous or underspecified, stop. Research the codebase, docs, and available context before guessing. Use external search only when the answer depends on public or up-to-date information. When an assumption affects behavior, architecture, data contracts, or public APIs, verify it before implementing.
 
-## 2. Simplicity First
+## 2. Read Before Editing
+
+**Understand the local pattern before changing code.**
+
+Before editing:
+- Inspect neighboring implementations and tests.
+- Check existing naming, layering, error handling, and test style.
+- Search for similar features before inventing a new pattern.
+- Prefer consistency with the codebase over personal preference.
+
+## 3. Simplicity First
 
 **Minimum code that solves the problem. Nothing speculative.**
 
