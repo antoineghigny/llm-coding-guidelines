@@ -13,7 +13,7 @@ I created this fork to solve my own pain point:
 2. **Merging Logic for Architectural Guardrails**: Introducing specific behavioral guardrails based on real PR reviews (Feedback-Driven Changes, Test Semantics, Architecture & Boundaries).
 3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new PR reviews. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section. The next time the LLM touches the codebase, it reads the lesson and avoids the trap.
 
-## The 9 Principles
+## The 8 Principles
 
 1. **Think Before Coding**: Don't assume. Surface tradeoffs. Stop and ask if unclear.
 2. **Simplicity First**: Minimum code that solves the problem. Nothing speculative.
@@ -22,8 +22,7 @@ I created this fork to solve my own pain point:
 5. **Feedback-Driven Changes**: Fix the smallest real problem first. Resolve the specific concern raised.
 6. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
 7. **Architecture & Boundaries**: Keep each layer focused. Define contracts once.
-8. **Configuration & Wiring**: Never guess config sources. Trace state through local and infra manifests.
-9. **Project Lessons**: A living section to append specific mistakes observed during code review so the LLM learns your project's traps.
+8. **Project Lessons**: A living section to append specific mistakes observed during code review so the LLM learns your project's traps.
 
 ## Workflow: The PR Review Loop
 

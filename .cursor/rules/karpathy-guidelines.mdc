@@ -87,14 +87,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - **Boundaries**: Controllers and adapters should translate input, validate, and delegate. Keep transport-specific code out of business logic.
 - **Contracts**: Define shared models once. Duplicate schemas signal misplaced ownership. Keep generated code aligned with contract structure.
 
-## 8. Configuration & Wiring
-
-**Never guess where runtime state comes from.**
-
-- **Traceability**: Trace configuration through local files, servers, and deployment manifests.
-- **Flags**: A feature flag is only correct when every component that creates, injects, or calls it follows the flag.
-
-## 9. Project Lessons
+## 8. Project Lessons
 
 **Keep this section short. Add only repeated mistakes observed in review.**
 
