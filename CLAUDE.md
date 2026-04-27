@@ -36,12 +36,16 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 
 The test: Every changed line should trace directly to the user's request.
 
-## 4. Goal-Driven & End-To-End Verification
+## 4. Goal-Driven Execution
 
-**Define success criteria. Loop until verified across all layers.**
+**Define success criteria. Loop until verified.**
 
-- Transform tasks into verifiable goals (e.g., "Write a test that reproduces the bug, then make it pass").
-- Changes crossing code, contracts, and infra need cross-layer verification, not just source diffs.
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
 ## 5. Architecture & Boundaries
 

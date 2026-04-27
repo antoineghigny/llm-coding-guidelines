@@ -10,7 +10,7 @@ The original Karpathy guidelines were a fantastic starting point for general beh
 
 I created this fork to solve my own pain point:
 1. **Prioritizing Core Principles**: Re-ordering Karpathy's original rules (Think Before Coding, Simplicity First) to maintain their foundational weight.
-2. **Merging Logic for Architectural Guardrails**: Consolidating frequent PR review feedback into high-impact, behavioral principles (Surgical & Feedback-Driven Changes, Goal-Driven & End-to-End Verification).
+2. **Merging Logic for Architectural Guardrails**: Consolidating frequent PR review feedback into high-impact, behavioral principles (Surgical & Feedback-Driven Changes).
 3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new PR reviews. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section. The next time the LLM touches the codebase, it reads the lesson and avoids the trap.
 
 ## The 8 Principles
@@ -18,7 +18,7 @@ I created this fork to solve my own pain point:
 1. **Think Before Coding**: Don't assume. Surface tradeoffs. Stop and ask if unclear.
 2. **Simplicity First**: Minimum code that solves the problem. Nothing speculative.
 3. **Surgical & Feedback-Driven Changes**: Touch only what you must. Fix the exact concern raised without drive-by refactoring.
-4. **Goal-Driven & End-To-End Verification**: Define verifiable success criteria. Loop until verified across all layers.
+4. **Goal-Driven Execution**: Define verifiable success criteria. Loop until verified.
 5. **Architecture & Boundaries**: Keep each layer focused. Define contracts once.
 6. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
 7. **Configuration & Wiring**: Never guess config sources. Trace state through local and infra manifests.
