@@ -1,28 +1,28 @@
 # Using this repo with Cursor
 
-This project includes a **Cursor project rule** so the Karpathy-inspired behavioral guidelines apply automatically when you work here.
+This project includes a Cursor project rule at [`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc). It is committed with `alwaysApply: true`, so Cursor applies the generated guidelines automatically when this folder is opened.
 
 ## In this repository
 
 1. Open the folder in Cursor.
-2. The rule [`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc) is committed with `alwaysApply: true`, so you do not need extra installation steps.
-3. In Cursor, you can confirm it under **Settings → Rules** (or the project rules UI), where `karpathy-guidelines` should appear.
+2. Confirm the `karpathy-guidelines` project rule appears under Cursor's Rules UI if needed.
+3. Edit [`guidelines/core.md`](guidelines/core.md), not the generated Cursor rule, when changing guideline content.
 
 ## Use the same guidelines in another project
 
-**Cursor (recommended):** Copy `.cursor/rules/karpathy-guidelines.mdc` into that project’s `.cursor/rules/` directory (create the folders if needed). Adjust or merge with existing rules as you like.
+For Cursor, copy [`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc) into the target project's `.cursor/rules/` directory.
 
-**Other tools:** If a stack only supports a root instruction file, copy [`CLAUDE.md`](CLAUDE.md) into that project instead (or merge its contents into your existing instructions).
+For tools that read root instruction files, copy the generated file they support, such as [`AGENTS.md`](AGENTS.md), [`CLAUDE.md`](CLAUDE.md), or [`GEMINI.md`](GEMINI.md).
 
-## Optional: personal Agent Skills
-
-If you want the same content as a reusable skill under `~/.cursor/skills`, use [`skills/karpathy-guidelines/SKILL.md`](skills/karpathy-guidelines/SKILL.md). You can copy or symlink it into your personal skills directory; use whatever layout you use for other skills.
-
-## Claude Code vs Cursor
-
-- **Claude Code:** Install via the plugin marketplace and [`README.md`](README.md) instructions; the plugin exposes the skill from this repo. Per-project use can also rely on `CLAUDE.md`.
-- **Cursor:** Use the committed `.cursor/rules/` file as described above. Cursor does not read `.claude-plugin/` or `CLAUDE.md` by default.
+For reusable skill/plugin workflows, use [`skills/karpathy-guidelines/SKILL.md`](skills/karpathy-guidelines/SKILL.md).
 
 ## For contributors
 
-When you change the guidelines, keep **[`CLAUDE.md`](CLAUDE.md)**, **[`AGENTS.md`](AGENTS.md)**, **[`GEMINI.md`](GEMINI.md)**, and **[`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)** in sync. If the published skill/plugin text should match, update **[`skills/karpathy-guidelines/SKILL.md`](skills/karpathy-guidelines/SKILL.md)** as well.
+The source of truth is [`guidelines/core.md`](guidelines/core.md). After editing it, run:
+
+```bash
+./scripts/sync-guidelines.sh
+./scripts/sync-guidelines.sh --check
+```
+
+Do not hand-edit the generated agent files unless you are changing the generator itself.
