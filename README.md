@@ -1,11 +1,11 @@
 # 🧭 LLM Coding Guidelines
-> **Karpathy-inspired guardrails for AI coding agents — from messy diffs to focused pull requests.**
+> **Karpathy-inspired guardrails for AI coding agents — from repeated mistakes to cleaner first attempts.**
 
 [![Built for: Claude Code + Codex + Gemini CLI + Cursor](https://img.shields.io/badge/Built%20for-Claude%20Code%20%2B%20Codex%20%2B%20Gemini%20CLI%20%2B%20Cursor-orange.svg)](https://github.com/antoineghigny/llm-coding-guidelines)
 [![Source of truth: guidelines/core.md](https://img.shields.io/badge/Source%20of%20truth-guidelines%2Fcore.md-blue.svg)](guidelines/core.md)
 [![Agent rules: AGENTS + CLAUDE + GEMINI + Cursor](https://img.shields.io/badge/Agent%20rules-AGENTS%20%2B%20CLAUDE%20%2B%20GEMINI%20%2B%20Cursor-green.svg)](#-quick-start)
 
-**LLM Coding Guidelines** is a compact set of behavioral instructions for AI coding agents. It helps Claude Code, Codex, Gemini CLI, Cursor, and similar tools avoid broken contracts, downgraded tests, blurred boundaries, speculative abstractions, and noisy diffs.
+**LLM Coding Guidelines** is a compact set of behavioral instructions for AI coding agents. It helps Claude Code, Codex, Gemini CLI, Cursor, and similar tools avoid broken contracts, downgraded tests, blurred boundaries, miswired feature flags, speculative abstractions, and noisy diffs.
 
 ---
 
@@ -58,12 +58,11 @@ Copy the file your coding tool reads by default into the target project. Keep it
 
 ## 🧠 Current Guidelines
 
-1. **Ground Before Acting:** Inspect local truth first, then clarify only unresolved material ambiguity.
-2. **Keep Changes Surgical:** Every changed line should trace to the task.
-3. **Build the Simplest Robust Thing:** Solve the real problem without speculative flexibility.
-4. **Protect Contracts and Boundaries:** Treat public APIs, schemas, messages, and layers as owned surfaces.
-5. **Preserve Test Intent and Verify Behavior:** Keep test category and observable behavior intact.
-6. **Finish Cleanly:** Remove iteration artifacts and report what was verified.
+1. **Ground First:** Inspect local truth before choosing an approach.
+2. **Keep Diff Narrow:** Do the requested change without drive-by cleanup.
+3. **Protect Contracts and Boundaries:** Treat public APIs, OpenAPI schemas, messages, flags, and layers as owned surfaces.
+4. **Keep Tests Honest:** Prove behavior through the same layer the user depends on.
+5. **Build Simply, Finish Cleanly:** Avoid speculative code, inspect the diff, and report verification.
 
 ---
 
@@ -90,9 +89,9 @@ git diff --check
 
 ## 🛡️ Why this Fork Exists
 
-I use LLMs heavily to code features, but I noticed a costly pattern: the agent would fall into the same traps and trigger the same PR review comments from my team. The repeated issues were not just style problems; they were architectural mistakes such as downgrading integration tests into unit tests, mismanaging OpenAPI contracts, blurring service boundaries, or wiring feature flags incorrectly.
+I use LLMs heavily to code features, but I noticed a costly pattern: the agent would fall into the same traps again and again. The repeated issues were not just style problems; they were architectural mistakes such as downgrading integration tests into unit tests, mismanaging OpenAPI contracts, blurring service boundaries, or wiring feature flags incorrectly.
 
-The original Karpathy-inspired guidelines were a strong starting point for general agent behavior. This fork keeps that spirit while adding stricter software-engineering guardrails for contracts, tests, boundaries, and implementation hygiene.
+The original Karpathy-inspired guidelines were a strong starting point for general agent behavior. This fork keeps that spirit while adding stricter guardrails for contracts, tests, boundaries, feature flags, and implementation hygiene.
 
 ---
 

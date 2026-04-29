@@ -30,11 +30,11 @@ render_agent_file() {
 render_cursor_rule() {
   cat <<'EOF'
 ---
-description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
+description: Compact coding-agent guardrails for narrower diffs, protected contracts, honest tests, and verified behavior.
 alwaysApply: true
 ---
 
-# Karpathy behavioral guidelines
+# Coding Agent Guidelines
 
 EOF
   core_body
@@ -44,11 +44,11 @@ render_skill() {
   cat <<'EOF'
 ---
 name: karpathy-guidelines
-description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
+description: Compact coding-agent guardrails for narrower diffs, protected contracts, honest tests, and verified behavior.
 license: MIT
 ---
 
-# Karpathy Guidelines
+# Coding Agent Guidelines
 
 EOF
   core_body
