@@ -47,12 +47,7 @@ These guidelines bias toward careful implementation over speed. For trivial one-
 - Rename tests when behavior changes, and prefer narrow fixture overrides over rebuilding scaffolding.
 - Run the smallest relevant verification first, then broader checks when the blast radius warrants it.
 
-## 6. Finish Cleanly and Capture Lessons
+## 6. Finish Cleanly
 **Do not leave iteration artifacts in the final diff.**
 - Scan the diff before finalizing. Remove temporary names, fully-qualified references used as shortcuts, obsolete comments, and dead branches introduced during the work.
 - Report what was verified and what could not be verified.
-- When repeated PR feedback reveals a coding-agent failure pattern, add one concise, action-oriented bullet under Project Lessons.
-- Add lessons only for repeated or high-cost mistakes; do not turn one-off preferences into permanent rules.
-
-## Project Lessons
-- Add project-specific repeated mistakes here as short, actionable bullets.
