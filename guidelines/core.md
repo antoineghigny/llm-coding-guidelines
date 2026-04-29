@@ -1,4 +1,4 @@
-# AGENTS.md
+# Karpathy-Inspired Coding Agent Guidelines
 
 Behavioral guardrails for coding agents. Merge with project-specific instructions as needed.
 

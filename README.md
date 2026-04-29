@@ -1,53 +1,55 @@
-# LLM Coding Guidelines (Karpathy-Inspired Fork)
+# LLM Coding Guidelines
 
-A unified set of behavioral guidelines (`CLAUDE.md`, `GEMINI.md`, `AGENTS.md`) designed to improve LLM coding behavior and **stop LLMs from repeating the same mistakes over and over**.
+A compact, tool-compatible set of behavioral guidelines for coding agents. The goal is to reduce repeat LLM coding mistakes without loading every agent prompt with redundant prose.
 
-## Why I created this fork
+## Why this shape
 
-I use LLMs heavily to code features, but I noticed a frustrating pattern: **the LLM would systematically fall into the exact same traps, leading to the exact same PR review comments from my team.** I was losing time fixing the same architectural mistakes (like degrading integration tests into unit tests, messing up feature-flag wiring, or mismanaging OpenAPI contracts).
+This repo now uses one canonical source, [`guidelines/core.md`](guidelines/core.md), and generates the agent-specific files from it. The generated files remain complete because different tools read different entrypoints:
 
-The original Karpathy guidelines were a fantastic starting point for general behavior, but they lacked specific architectural guardrails and a mechanism for continuous learning on a specific codebase.
+- [`AGENTS.md`](AGENTS.md) for general coding agents and Codex-style workflows
+- [`CLAUDE.md`](CLAUDE.md) for Claude Code and Claude projects
+- [`GEMINI.md`](GEMINI.md) for Gemini CLI
+- [`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc) for Cursor project rules
+- [`skills/karpathy-guidelines/SKILL.md`](skills/karpathy-guidelines/SKILL.md) for reusable skill/plugin use
 
-I created this fork to solve my own pain point:
-1. **Prioritizing Core Principles**: Restoring Karpathy's original rules (Think & Surface Tradeoffs, Contextual Surgicality, Minimalist Excellence, Goal-Driven Execution) exactly as they were intended.
-2. **Architectural and Implementation Guardrails**: Integrating strict API standards, Reliable Messaging, Boundary enforcement, and implementation hygiene to prevent common PR rejections.
-3. **The "Project Lessons" Engine**: A designated, living section specifically designed to aggregate new project-specific mistakes. When your LLM makes a new mistake, you distill that feedback into a single bullet point in this section.
+The content is deliberately shorter than the previous 11-section version, but not shortened for its own sake. The design follows a few practical prompt-writing lessons:
 
-## The 11 Principles
+- OpenAI's GPT-5-Codex prompting guidance recommends keeping custom instructions focused on the essential behavior you want changed.
+- Codex's public model instructions use concrete sections for behavior, tool use, editing discipline, and final verification instead of long theoretical policy text.
+- OpenAI's instruction-hierarchy work and Anthropic's prompting guidance both favor clear, direct instructions with explicit conflict handling.
+- Long-context research such as "Lost in the Middle" is a reminder that repeated or low-signal text can make important instructions easier to miss.
+- Prompting surveys such as "The Prompt Report" support using clear role/task/context structure and examples where they add signal.
 
-1. **Think & Surface Tradeoffs**: Don't assume. Clarify before guessing. Surface tradeoffs.
-2. **Contextual Surgicality**: Match local pattern for existing code. Clean up only your own mess.
-3. **Minimalist Excellence**: For new code, aim for O(n) and 50 vs 200 lines. Avoid deep nesting.
-4. **Goal-Driven Execution**: Define verifiable success criteria. Plan -> Act -> Validate.
-5. **Sacred API Contracts**: No breaking changes. Contract-first design.
-6. **Reliable Messaging**: Design for resilience and async schema evolution.
-7. **Architectural Boundaries**: Keep layers focused. Boundaries validate, log, and delegate; operation owners translate.
-8. **Feedback-Driven Focus**: Fix the smallest real problem first. Resolve the specific concern raised.
-9. **Preserve Test Semantics**: Don't silently change integration tests to unit tests.
-10. **Implementation Hygiene**: Remove transitional shortcuts before the final diff.
-11. **Project Lessons Engine**: Distill past PR feedback into lessons to avoid repeating traps.
+References: [GPT-5-Codex prompting guide](https://cookbook.openai.com/examples/gpt-5-codex_prompting_guide), [Codex models.json](https://raw.githubusercontent.com/openai/codex/main/codex-rs/models-manager/models.json), [OpenAI instruction hierarchy](https://openai.com/index/instruction-hierarchy-challenge/), [Anthropic prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [Lost in the Middle](https://arxiv.org/abs/2307.03172), [The Prompt Report](https://arxiv.org/abs/2406.06608), and the upstream [Karpathy-inspired guidelines](https://github.com/forrestchang/andrej-karpathy-skills).
 
-## Workflow: The PR Review Loop
+## The six guidelines
 
-Simply copy the guidelines into your project root. The exact same guidelines are provided in different filenames to support your preferred tools:
+1. **Ground Before Acting**: inspect local truth first, then clarify only unresolved material ambiguity.
+2. **Keep Changes Surgical**: every changed line should trace to the task.
+3. **Build the Simplest Robust Thing**: solve the real problem without speculative flexibility.
+4. **Protect Contracts and Boundaries**: treat public APIs, schemas, messages, and layers as owned surfaces.
+5. **Preserve Test Intent and Verify Behavior**: keep test category and observable behavior intact.
+6. **Finish Cleanly and Capture Lessons**: remove iteration artifacts and record repeated agent failure patterns.
 
-- `CLAUDE.md` (for Claude Code / Claude projects)
-- `GEMINI.md` (for Gemini CLI)
-- `AGENTS.md` (for general AI agents)
-- `.cursor/rules/karpathy-guidelines.mdc` (for Cursor)
+## Workflow
 
-**How to use it effectively:**
-1. Pick the file(s) that match your workflow and add it to your project repository.
-2. Assign a feature task to your LLM.
-3. Submit the PR.
-4. **When you receive feedback about an architectural or implementation mistake the LLM made, DO NOT just fix the code. Add the core lesson as a new bullet point under the `Project Lessons` section of your guideline file.**
-5. Commit the updated guideline file.
-6. The next time the LLM works on a feature, it will read its past mistake and avoid it. You stop wasting time on the same issues.
+Edit only [`guidelines/core.md`](guidelines/core.md) when changing the guidelines.
 
-## How to Know It's Working
+Then regenerate the tool-specific files:
 
-These guidelines are working if you see:
-- **No more repetitive PR comments** — The LLM learns your project's specific architecture and testing standards.
-- **Integration tests remain intact** — The LLM doesn't take shortcuts by mocking everything.
-- **Fewer unnecessary changes in diffs** — Only requested changes appear.
-- **Clean, minimal PRs** — No drive-by refactoring or unrequested "improvements".
+```bash
+./scripts/sync-guidelines.sh
+```
+
+Before committing, verify generated files are in sync:
+
+```bash
+./scripts/sync-guidelines.sh --check
+git diff --check
+```
+
+[`EXAMPLES.md`](EXAMPLES.md) is supplementary. It should illustrate the guidelines, not become a second source of instructions.
+
+## Project Lessons
+
+When PR feedback reveals a repeated or high-cost agent failure, add one short, actionable bullet under `Project Lessons` in [`guidelines/core.md`](guidelines/core.md), then run the sync script. Do not add one-off preferences or long explanations there.

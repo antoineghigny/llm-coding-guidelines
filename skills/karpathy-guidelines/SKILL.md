@@ -6,70 +6,59 @@ license: MIT
 
 # Karpathy Guidelines
 
-Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
+Behavioral guardrails for coding agents. Merge with project-specific instructions as needed.
 
-## 1. Think & Surface Tradeoffs
-**Don't assume. Don't hide confusion. Clarify before guessing.**
-- State assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- Push back on overcomplicated requests.
+These guidelines bias toward careful implementation over speed. For trivial one-line tasks, use judgment. If instructions conflict, follow the higher-priority instruction and keep the user's concrete goal in focus.
 
-## 2. Contextual Surgicality
-**Match the local pattern for existing code. Clean up only your own mess.**
-- **Read First**: Inspect neighboring naming, layering, and error handling before editing.
-- **Surgical Edits**: Match existing style for surgical changes. Don't "improve" adjacent code.
+## 1. Ground Before Acting
+**Read first. Clarify only after inspecting what can be inspected.**
+- Inspect the relevant code, tests, contracts, docs, and local patterns before choosing an approach.
+- State assumptions when they affect behavior, architecture, data contracts, public APIs, or tests.
+- If a request has multiple plausible meanings, present the tradeoff instead of silently choosing.
+- Use external search only when the answer depends on public, current, or vendor-specific information.
+- Ask only when exploration cannot resolve a material ambiguity.
 
-## 3. Minimalist Excellence
-**High-quality logic for NEW code. Avoid brute-force and complexity.**
-- **50 vs 200**: If you write 200 lines and it could be 50, rewrite it.
-- **Efficiency**: Prefer hash maps/sets over nested loops. Avoid O(n) operations in loops.
-- **Flatten Indentation**: Avoid more than 2 levels of nesting. Use guard clauses.
+## 2. Keep Changes Surgical
+**Every changed line should trace to the task.**
+- Match neighboring naming, layering, style, error handling, and test patterns.
+- Do not reformat, refactor, rename, or clean up adjacent code unless required for the requested change.
+- Mention unrelated dead code or design problems; do not remove them unless asked.
+- Remove imports, variables, helpers, mocks, and fixtures made unused by your own changes.
+- Preserve user edits and uncommitted work you did not create.
 
-## 4. Goal-Driven Execution
-**Define success criteria. Plan -> Act -> Validate.**
-- Transform tasks into verifiable goals.
-- For multi-step tasks, share a brief plan first.
-- **Loop until verified**: Validation is the only path to finality.
+## 3. Build the Simplest Robust Thing
+**Solve the real problem without speculative flexibility.**
+- Do not add features, settings, abstractions, or generic frameworks that were not requested.
+- Handle realistic failure modes clearly; do not add defensive code for impossible states.
+- Prefer direct data structures and straightforward control flow. Avoid nested loops when a map or set fits.
+- Keep indentation shallow with guard clauses and small named helpers for complex state tracking.
+- If the solution grows much larger than the problem, simplify before continuing.
 
-## 5. Sacred API Contracts
-**Do not break backward compatibility. Contract-first design.**
-- **API First**: When changing API behavior or schemas, update OpenAPI specs before implementation.
-- **Compatibility**: For public APIs, add optional fields only. Never rename fields.
-- **Schema Ownership**: Identify where API schemas are owned before adding or editing them.
-- **No Cross-Module Source Links**: Consume shared contracts through project dependencies or packaging, not direct source links.
-- **Contract Verification**: For generated API code, verify generation and compilation after changing the contract.
+## 4. Protect Contracts and Boundaries
+**Treat public interfaces and architecture as owned surfaces.**
+- For public API behavior or schema changes, update the contract first, then implementation and tests.
+- Keep changes backward compatible: add optional fields rather than renaming or removing fields.
+- Identify schema ownership before editing shared models, enums, or reusable payload shapes.
+- Consume shared contracts through the project's dependency or packaging mechanism, not direct cross-module source links.
+- Keep transport logic at boundaries. Domain or operation-owned layers should own translation into commands, events, entities, or internal models.
+- For asynchronous messaging, assume at-least-once delivery: preserve idempotence, retry/DLQ behavior, compatible schema evolution, and stable ordering keys when ordering matters.
 
-## 6. Reliable Messaging & Event-Driven
-**Design for asynchronous reliability and schema evolution.**
-- **Resilience**: Ensure idempotence and handle retries/DLQ.
-- **Evolution**: Consumers must tolerate unknown fields.
+## 5. Preserve Test Intent and Verify Behavior
+**Use tests as the definition of done.**
+- Convert the request into observable success criteria before implementing.
+- Fix bugs by reproducing the failure with a focused test when practical, then make it pass.
+- Keep integration, slice, and unit tests in their existing category; do not downgrade real wiring to mocks for convenience.
+- Integration tests should assert observable behavior such as persisted state, emitted messages, returned responses, or captured boundary calls.
+- Use unit tests for internal delegation, argument capture, and pure logic.
+- Rename tests when behavior changes, and prefer narrow fixture overrides over rebuilding scaffolding.
+- Run the smallest relevant verification first, then broader checks when the blast radius warrants it.
 
-## 7. Architectural Boundaries
-**Keep each layer focused on one kind of work.**
-- **Boundaries**: Controllers and adapters receive input, perform boundary-level validation, log boundary context, and delegate.
-- **Translation Ownership**: Translation into internal commands, events, entities, or domain models belongs in the layer that owns the operation.
-- **Logic**: Keep transport-specific code out of core business logic.
+## 6. Finish Cleanly and Capture Lessons
+**Do not leave iteration artifacts in the final diff.**
+- Scan the diff before finalizing. Remove temporary names, fully-qualified references used as shortcuts, obsolete comments, and dead branches introduced during the work.
+- Report what was verified and what could not be verified.
+- When repeated PR feedback reveals a coding-agent failure pattern, add one concise, action-oriented bullet under Project Lessons.
+- Add lessons only for repeated or high-cost mistakes; do not turn one-off preferences into permanent rules.
 
-## 8. Feedback-Driven Focus
-**Fix the smallest real problem first.**
-- Resolve the specific concern raised.
-- If feedback asks for a rename, start with a rename, not a redesign.
-
-## 9. Preserve Test Semantics
-**Don't silently change the kind of test you're writing.**
-- Keep existing integration or slice-test patterns. Don't convert to unit tests.
-- Integration tests should exercise real application wiring and assert observable outcomes.
-- Do not mock the primary path of an integration test just to make it easier to write.
-- Use unit tests for internal delegation, mocks, argument capture, and method-call verification.
-- Use narrow fixture overrides instead of rebuilding test scaffolding.
-
-## 10. Implementation Hygiene
-**Avoid transitional shortcuts that survive into the final diff.**
-- Do not leave fully-qualified names in normal code when an import would be clearer.
-- Do not leave names from earlier iterations after the responsibility or behavior changed.
-- Before final validation, scan the diff for shortcuts and either remove them or justify them.
-
-## 11. Project Lessons Engine
-**Distill PR feedback into living lessons to avoid repeated traps.**
-- Add only repeated mistakes observed while using coding agents.
-- (Add project-specific mistakes here as they happen)
+## Project Lessons
+- Add project-specific repeated mistakes here as short, actionable bullets.
