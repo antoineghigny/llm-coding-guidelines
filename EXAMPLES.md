@@ -49,12 +49,10 @@ Add more structure only when the product needs multiple discount models or share
 
 **Better pattern:** keep the integration test category, exercise real application wiring, and assert the emitted message or captured boundary call that represents user-visible behavior. Use unit tests only for pure logic or delegation details.
 
-## 6. Finish Cleanly and Capture Lessons
+## 6. Finish Cleanly
 
 **Request:** "Rename the internal command from `CreateOrder` to `SubmitOrder`."
 
 **Bad pattern:** leaves fully-qualified names, transitional aliases, stale test names, and old comments because the code compiles.
 
 **Better pattern:** scan the diff before finalizing, remove iteration artifacts introduced during the change, run relevant tests, and report any verification that could not be run.
-
-If the same mistake repeatedly appears in PR feedback, add one short bullet under `Project Lessons` in [`guidelines/core.md`](guidelines/core.md). Do not add a permanent rule for a one-off preference.
