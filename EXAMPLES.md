@@ -1,24 +1,40 @@
 # Examples
 
-Supplementary examples for the six coding-agent guidelines. These examples are intentionally not part of the default agent prompt; keep the active instructions in [`guidelines/core.md`](guidelines/core.md).
+Supplementary examples for the five coding-agent guidelines. These examples are not part of the default agent prompt; keep active instructions in [`guidelines/core.md`](guidelines/core.md).
 
-## 1. Ground Before Acting
+## 1. Ground First
 
 **Request:** "Make search faster."
 
-**Bad pattern:** immediately adds caching, indexes, async rewrites, and UI loading states.
+**Bad pattern:** immediately adds caching, indexes, async rewrites, and loading states.
 
-**Better pattern:** inspect the current search path, tests, query plans, and observed latency first. Then state the real choice: response latency, throughput, or perceived speed. Ask only if the code and metrics do not reveal which one matters.
+**Better pattern:** inspect the current search path, tests, query plans, and measured latency first. Then choose the smallest change that targets the actual bottleneck.
 
-## 2. Keep Changes Surgical
+## 2. Keep Diff Narrow
 
 **Request:** "Fix the null pointer in invoice export."
 
-**Bad pattern:** fixes the null pointer while also reformatting the exporter, renaming helpers, and changing unrelated comments.
+**Bad pattern:** fixes the null pointer while reformatting the exporter, renaming helpers, and changing unrelated comments.
 
-**Better pattern:** change only the lines needed to handle the null case, update or add the focused test, and mention unrelated cleanup separately.
+**Better pattern:** change only the null-handling path, update the focused test, and leave unrelated cleanup out of the diff.
 
-## 3. Build the Simplest Robust Thing
+## 3. Protect Contracts and Boundaries
+
+**Request:** "Expose `customer_segment` on the customer API."
+
+**Bad pattern:** adds a response field in the controller and copies a schema type from another module.
+
+**Better pattern:** update the owned API schema first, keep the field optional for existing clients, regenerate generated code, and map from the owning layer instead of coupling to another module's source.
+
+## 4. Keep Tests Honest
+
+**Request:** "Fix checkout event emission."
+
+**Bad pattern:** converts an integration test into a unit test with a mocked event publisher because asserting a method call is easier.
+
+**Better pattern:** keep the integration test category, exercise real wiring, and assert the emitted message or captured boundary call.
+
+## 5. Build Simply, Finish Cleanly
 
 **Request:** "Add percentage discount calculation."
 
@@ -31,28 +47,4 @@ def calculate_discount(amount: float, percent: float) -> float:
     return amount * (percent / 100)
 ```
 
-Add more structure only when the product needs multiple discount models or shared policy behavior.
-
-## 4. Protect Contracts and Boundaries
-
-**Request:** "Expose `customer_segment` on the customer API."
-
-**Bad pattern:** adds a response field in the controller and copies a schema type from another module.
-
-**Better pattern:** update the owned API schema first, keep the field optional if clients already consume the response, regenerate or compile generated code, then map from the operation-owned layer rather than coupling directly to another module's source.
-
-## 5. Preserve Test Intent and Verify Behavior
-
-**Request:** "Fix checkout event emission."
-
-**Bad pattern:** converts an integration test into a unit test with a mocked event publisher because it is easier to assert a method call.
-
-**Better pattern:** keep the integration test category, exercise real application wiring, and assert the emitted message or captured boundary call that represents user-visible behavior. Use unit tests only for pure logic or delegation details.
-
-## 6. Finish Cleanly
-
-**Request:** "Rename the internal command from `CreateOrder` to `SubmitOrder`."
-
-**Bad pattern:** leaves fully-qualified names, transitional aliases, stale test names, and old comments because the code compiles.
-
-**Better pattern:** scan the diff before finalizing, remove iteration artifacts introduced during the change, run relevant tests, and report any verification that could not be run.
+Add structure only when a real second use case appears. Before finishing, inspect the diff and remove temporary aliases, stale comments, and unused helpers introduced during the change.
